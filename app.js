@@ -3,7 +3,7 @@ const puppeteer = require("puppeteer");
 
 const express = require("express");
 // const bodyParser = require("body-parser"); /* deprecated */
-const cors = require("cors");
+// const cors = require("cors");
 const fs = require('fs');
 const app = express();
 const lotteryController = require("./app/controllers/lottery.controller.js");
