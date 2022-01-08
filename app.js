@@ -1,13 +1,62 @@
 const puppeteer = require("puppeteer");
+
+
+const express = require("express");
+// const bodyParser = require("body-parser"); /* deprecated */
+const cors = require("cors");
+const fs = require('fs');
+const app = express();
+const lotteryController = require("./app/controllers/lottery.controller.js");
+
+var corsOptions = {
+  origin: "http://localhost:8081"
+};
+
+// app.use(cors(corsOptions));
+
+// parse requests of content-type - application/json
+app.use(express.json());  /* bodyParser.json() is deprecated */
+
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true }));   /* bodyParser.urlencoded() is deprecated */
+
+const db = require("./app/models");
+db.mongoose
+  .connect(db.url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => {
+    console.log("Connected to the database!");
+  })
+  .catch(err => {
+    console.log("Cannot connect to the database!", err);
+    process.exit();
+  });
+
+// simple route
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to bezkoder application." });
+});
+
+require("./app/routes/lottery.routes")(app);
+
+// set port, listen for requests
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}.`);
+});
+
+
+
 // const dbmb = require("./db");
 // const dbmn = require("./dbmn");
 // const dbmt = require("./dbmt");
+
 let dbmb = {prizes: []};
 let dbmn = {prizes: []};
 let dbmt = {prizes: []};
-const fs = require('fs');
-const express = require('express')
-const app = express();
+
 const port = 3000;
 const arrNum =[
   {
@@ -411,12 +460,11 @@ const arrNum =[
     "isDisplay": false
   }
 ]
-app.listen(process.env.PORT || 3000)
 
 const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
-const dateStart = "01/05/2022"; // MM/dd/YYYY
+const dateStart = "11/01/2021"; // MM/dd/YYYY
 const runCrawlMN = async () => {
   // dbmn.get('prizes').remove().write();
   dbmn.prizes = [];
@@ -470,7 +518,11 @@ const runCrawlMN = async () => {
         await sleep(60000);
         continue;
       }
-
+      lotteryController.ipmortCrawData({
+        date: crawingDate.getTime(),
+        type: 'xsmn',
+        result: JSON.stringify(allPrize)
+      })
       // dbmn.get("prizes")
       //   .push({ time: (new Date(crawingDate).getDate()) +'/'+ (new Date(crawingDate).getMonth() + 1) +'/'+ new Date(crawingDate).getFullYear(), allPrizes: allPrize })
       //   .write();
@@ -536,7 +588,11 @@ const runCrawlMT = async () => {
         await sleep(60000);
         continue;
       }
-
+      lotteryController.ipmortCrawData({
+        date: crawingDate.getTime(),
+        type: 'xsmt',
+        result: JSON.stringify(allPrize)
+      })
       // dbmt.get("prizes")
       //   .push({ time: (new Date(crawingDate).getDate()) +'/'+ (new Date(crawingDate).getMonth() + 1) +'/'+ new Date(crawingDate).getFullYear(), allPrizes: allPrize })
       //   .write();
@@ -607,6 +663,12 @@ const runCrawlMB = async () => {
         continue;
       }
       
+      lotteryController.ipmortCrawData({
+        date: crawingDate.getTime(),
+        type: 'xsmb',
+        result: JSON.stringify(allPrize)
+      })
+
       // dbmb.get("prizes")
       //   .push({ time: (new Date(crawingDate).getDate()) +'/'+ (new Date(crawingDate).getMonth() + 1) +'/'+ new Date(crawingDate).getFullYear(), allPrizes: allPrize })
       //   .write();
@@ -732,22 +794,23 @@ function getAllResultNum() {
   return arrData;
 }
 
+
 runCrawlMN();
 runCrawlMT();
 runCrawlMB();
-app.get('/', (req, res) => {
-  let dataResult = getAllResultNum();
-  for (let index = 0; index < arrNum.length; index++) {
-    result = dataResult.filter(item => item == arrNum[index].num);
-    arrNum[index].isDisplay = result && result.length > 0 ? true : false;
-    arrNum[index].count = result && result.length > 0 ? result.length : 0;
-  }
-  let obj = {
-    display: arrNum.filter(item => !item.isDisplay),
-    all: arrNum
-  }
+// app.get('/', (req, res) => {
+//   let dataResult = getAllResultNum();
+//   for (let index = 0; index < arrNum.length; index++) {
+//     result = dataResult.filter(item => item == arrNum[index].num);
+//     arrNum[index].isDisplay = result && result.length > 0 ? true : false;
+//     arrNum[index].count = result && result.length > 0 ? result.length : 0;
+//   }
+//   let obj = {
+//     display: arrNum.filter(item => !item.isDisplay),
+//     all: arrNum
+//   }
   
-  res.send(obj);
-})
+//   res.send(obj);
+// })
 
 
