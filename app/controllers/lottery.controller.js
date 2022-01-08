@@ -49,7 +49,6 @@ exports.create = (req, res) => {
 
 // Retrieve all Lotterys from the database.
 exports.findAll = (req, res) => {
-  console.log('req.params.to', req)
   const from = req.query.from || (new Date('10/01/2021')).getTime();
   const to = req.query.to || (new Date()).getTime();
 
