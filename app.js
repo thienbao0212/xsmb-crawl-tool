@@ -53,7 +53,7 @@ app.listen(PORT, () => {
 // const dbmb = require("./db");
 // const dbmn = require("./dbmn");
 // const dbmt = require("./dbmt");
-
+ 
 let dbmb = {prizes: []};
 let dbmn = {prizes: []};
 let dbmt = {prizes: []};
@@ -483,7 +483,7 @@ const runCrawlMN = async () => {
   const page = await browser.newPage();
   let crawingDate = new Date(dateStart);
   let index = 1;
-  while (crawingDate <= new Date()) {
+  while (crawingDate < new Date()) {
     
         
     await page.goto(
@@ -531,8 +531,8 @@ const runCrawlMN = async () => {
         .push({ time: (new Date(crawingDate).getDate()) +'/'+ (new Date(crawingDate).getMonth() + 1) +'/'+ new Date(crawingDate).getFullYear(), allPrizes: allPrize })
         
     } catch {}
-
-    crawingDate.setDate(crawingDate.getDate() + 1);
+    crawingDate = new Date(crawingDate.getTime() + 86400000);
+    // crawingDate.setDate(crawingDate.getDate() + 1);
     index = index + 1;
   }
 };
@@ -553,7 +553,7 @@ const runCrawlMT = async () => {
   const page = await browser.newPage();
   let crawingDate = new Date(dateStart);
   let index = 1;
-  while (crawingDate <= new Date()) {
+  while (crawingDate < new Date()) {
     
         
     await page.goto(
@@ -602,7 +602,7 @@ const runCrawlMT = async () => {
         
     } catch {}
 
-    crawingDate.setDate(crawingDate.getDate() + 1);
+    crawingDate = new Date(crawingDate.getTime() + 86400000);
     index = index + 1;
   }
 };
@@ -623,7 +623,7 @@ const runCrawlMB = async () => {
   const page = await browser.newPage();
   let crawingDate = new Date(dateStart);
   let index = 1;
-  while (crawingDate <= new Date()) {
+  while (crawingDate < new Date()) {
     await page.goto(
       `https://xoso.com.vn/xsmb-${
         crawingDate.getDate() >= 10
@@ -678,7 +678,7 @@ const runCrawlMB = async () => {
         
     } catch {}
 
-    crawingDate.setDate(crawingDate.getDate() + 1);
+    crawingDate = new Date(crawingDate.getTime() + 86400000);
     index = index + 1;
   }
 };

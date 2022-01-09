@@ -16,7 +16,7 @@ exports.ipmortCrawData = (data) => {
   //   })
   //   .catch(err => {
   //   });
-  return;
+  // return;
 };
 // Create and Save a new Lottery
 exports.create = (req, res) => {
@@ -52,7 +52,7 @@ exports.findAll = (req, res) => {
   const from = req.query.from || (new Date('10/01/2021')).getTime();
   const to = req.query.to || (new Date()).getTime();
 
-  Lottery.find({ date: { $gte: from }, date: { $lte: to } })
+  Lottery.find({ date: { $gte: parseInt(from) }, date: { $lte: parseInt(to) } })
     .then(data => {
       res.send(data);
     })
