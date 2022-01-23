@@ -3,20 +3,20 @@ const Lottery = db.lotterys;
 
 exports.ipmortCrawData = (data) => {
   // Create a Lottery
-  // const lottery = new Lottery({
-  //   date: data.date,
-  //   type: data.type,
-  //   result: data.result
-  // });
+  const lottery = new Lottery({
+    date: data.date,
+    type: data.type,
+    result: data.result
+  });
 
-  // // Save Lottery in the database
-  // lottery
-  //   .save(lottery)
-  //   .then(data => {
-  //   })
-  //   .catch(err => {
-  //   });
-  // return;
+  // Save Lottery in the database
+  lottery
+    .save(lottery)
+    .then(data => {
+    })
+    .catch(err => {
+    });
+  return;
 };
 // Create and Save a new Lottery
 exports.create = (req, res) => {
@@ -51,7 +51,7 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   const from = req.query.from || (new Date('10/01/2021')).getTime();
   const to = req.query.to || (new Date()).getTime();
-
+  
   Lottery.find({ date: { $gte: parseInt(from) }, date: { $lte: parseInt(to) } })
     .then(data => {
       res.send(data);

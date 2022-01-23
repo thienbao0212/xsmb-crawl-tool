@@ -483,7 +483,7 @@ const runCrawlMN = async () => {
   const page = await browser.newPage();
   let crawingDate = new Date(dateStart);
   let index = 1;
-  while (crawingDate < new Date()) {
+  while (crawingDate <= new Date()) {
     
         
     await page.goto(
@@ -553,7 +553,7 @@ const runCrawlMT = async () => {
   const page = await browser.newPage();
   let crawingDate = new Date(dateStart);
   let index = 1;
-  while (crawingDate < new Date()) {
+  while (crawingDate <= new Date()) {
     
         
     await page.goto(
@@ -623,7 +623,7 @@ const runCrawlMB = async () => {
   const page = await browser.newPage();
   let crawingDate = new Date(dateStart);
   let index = 1;
-  while (crawingDate < new Date()) {
+  while (crawingDate <= new Date()) {
     await page.goto(
       `https://xoso.com.vn/xsmb-${
         crawingDate.getDate() >= 10
@@ -813,5 +813,9 @@ runCrawlMB();
   
 //   res.send(obj);
 // })
-
+function job() {
+  setInterval(() => {
+    
+  }, 1000*60*24);
+}
 
