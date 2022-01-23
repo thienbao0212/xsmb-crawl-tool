@@ -1,4 +1,4 @@
-const puppeteer = require("puppeteer");
+// const puppeteer = require("puppeteer");
 
 
 const express = require("express");
@@ -796,9 +796,9 @@ function getAllResultNum() {
 }
 
 
-runCrawlMN();
-runCrawlMT();
-runCrawlMB();
+// runCrawlMN();
+// runCrawlMT();
+// runCrawlMB();
 // app.get('/', (req, res) => {
 //   let dataResult = getAllResultNum();
 //   for (let index = 0; index < arrNum.length; index++) {

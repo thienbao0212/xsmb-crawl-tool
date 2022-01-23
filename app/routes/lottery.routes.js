@@ -9,6 +9,10 @@ module.exports = app => {
   // Retrieve all Lotterys
   router.get("/getAll", lotterys.findAll);
 
+  router.get("/crawData", lotterys.crawData);
+  // Delete a Lottery with id
+  router.get("/deleteAll", lotterys.deleteAll);
+
   // Retrieve all published Lotterys
   // router.get("/published", lotterys.findAllPublished);
 
